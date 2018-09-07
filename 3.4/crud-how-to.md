@@ -142,6 +142,30 @@ For the integration, barryvdh's [laravel-elfinder](https://github.com/barryvdh/l
 
 ![Backpack CRUD ListEntries](https://backpackforlaravel.com/uploads/docs/media_library.png)
 
+<a name="use-the-crud-api"></a>
+## Access the CRUD API from JavaScript
+
+Each CRUD controller you create (and register with `CRUD::resource()`) will have several routes you can use to access or modify items.
+
+The route names take the form of `crud.modelname.operation` for example `crud.tag.destroy` and the URLs look something like: `/admin/modelname/{id}` View all the available routes using `php artisan route:list`.
+
+Several of the routes use the same URL but with a different PHP method (type). If you know the ID of the item to be modified when you're outputting your JavaScript you can pass that directly to @route(). If you don't then you can pass a placeholder as the ID and replace it at runtime, as in the example below. 
+
+To delete an entry:
+```
+    $.ajax({
+        url: "{{ @route('crud.tag.destroy', [ '{id}' ]) }}/".replace('{id}', tagId);
+        type: 'DELETE',
+        success: function(){
+            // Handle success here
+        },
+        error: function(){
+            // Handle errors here
+        }
+    });
+```
+In the example above the "url" line will become: `url: "/admin/tag/{id}/".replace('{id}', tagId);`
+
 <a name="manually-install-backpack-crud"></a>
 ## Manually install Backpack/CRUD
 
